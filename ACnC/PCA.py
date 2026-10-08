@@ -119,14 +119,15 @@ class PCA(BaseEstimator):
             - returnT2andQ (bool, optional): Whether the T2 and Q values of the newly transformed data should be returned. Defaults to False
         """
         X = np.asarray(X, copy=True)
-
+        X_pp = ((X-self.means)/self.stds)
+        
         if self.is_fitted_==False:
             raise ValueError("Model has not been fitted yet, call .fit() first.")
         
-        scores = ((X-self.means)/self.stds) @ self.loadings_
+        scores = X_pp @ self.loadings_
         if returnT2andQ:
             T2 = np.sum((scores - np.mean(scores, axis=0))**2 / (self.D**2 / self.n_samples), axis=1)
-            Q = np.sum((X - scores@self.loadings_.T)**2, axis=1)  
+            Q = np.sum((X_pp - scores@self.loadings_.T)**2, axis=1)  
             return scores, T2, Q
         else:
             return scores

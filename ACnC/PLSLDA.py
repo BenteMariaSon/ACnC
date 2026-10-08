@@ -333,7 +333,7 @@ class PLSLDA_CV(PLSLDA):
         - plot_double_CV_ConfusionMatrix(): create a confusion matrix with the fully independent test sample performance 
     """
 
-    def __init__(self, max_LV=30, scale=False, CV_scheme=KFold(n_splits=5, shuffle=True, random_state=37), n_jobs=1, enforce_nLVs=None, enforce_min_2_LVs=False):
+    def __init__(self, max_LV=20, scale=False, CV_scheme=KFold(n_splits=5, shuffle=True, random_state=37), n_jobs=1, enforce_nLVs=None, enforce_min_2_LVs=False):
         """Initialize the PLS-DA model
         Args:
             - max_LV (int, optional): The maximum number of LVs allowed to be used by the model, defaults to 20

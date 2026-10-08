@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd 
+import numpy as np
 
 #===================================================================================================================================================#
 
@@ -19,6 +20,11 @@ def venitian_blinds_split(X, Y, n):
         raise ValueError("X and Y must have the same number of rows (same number of samples)")
     if (n <= 1) or (n > len(X)):
         raise ValueError("Parameter 'n' must be a positive integer of at least 2 and cannot be larger than the number of samples.")
+    try:
+        X = pd.DataFrame(X, copy=True)
+        Y = pd.DataFrame(Y, copy=True)
+    except:
+        pass
     
     test_indices = X.index[(X.index+1) % n == 0]
     train_indices = X.index[(X.index+1) % n != 0]
@@ -28,7 +34,7 @@ def venitian_blinds_split(X, Y, n):
     Xtest = X.loc[test_indices].reset_index(drop=True)
     Ytest = Y.loc[test_indices].reset_index(drop=True)
 
-    return Xtrain, Xtest, Ytrain, Ytest
+    return np.asarray(Xtrain).squeeze(), np.asarray(Xtest).squeeze(), np.asarray(Ytrain).squeeze(), np.asarray(Ytest).squeeze()
 
 #===================================================================================================================================================#
 
@@ -73,9 +79,9 @@ def last_n_samples_split(X, y, n):
         raise ValueError("Parameter 'n' must be a positive integer of at least 1 and cannot be larger than the number of samples.")
     
     try:
-        X = pd.DataFrame(X)
-        y = pd.DataFrame(y)
-    except: 
+        X = pd.DataFrame(X, copy=True)
+        Y = pd.DataFrame(Y, copy=True)
+    except:
         pass
 
     Xtrain = X.iloc[:-n].reset_index(drop=True)
@@ -83,4 +89,4 @@ def last_n_samples_split(X, y, n):
     Xtest = X.iloc[-n:].reset_index(drop=True)
     Ytest = y.iloc[-n:].reset_index(drop=True)
 
-    return Xtrain, Xtest, Ytrain, Ytest
+    return np.asarray(Xtrain).squeeze(), np.asarray(Xtest).squeeze(), np.asarray(Ytrain).squeeze(), np.asarray(Ytest).squeeze()

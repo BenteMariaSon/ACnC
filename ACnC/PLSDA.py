@@ -360,7 +360,7 @@ class PLSDA_CV(PLSDA):
         - plot_double_CV_ConfusionMatrix(): create a confusion matrix with the fully independent test sample performance 
     """
 
-    def __init__(self, max_LV=30, scale=False, CV_scheme=KFold(n_splits=5, shuffle=True, random_state=37), n_jobs=1, enforce_nLVs=None, enforce_min_2_LVs=False):
+    def __init__(self, max_LV=20, scale=False, CV_scheme=KFold(n_splits=5, shuffle=True, random_state=37), n_jobs=1, enforce_nLVs=None, enforce_min_2_LVs=False):
         """Initialize the PLS-DA model
         Args:
             - max_LV (int, optional): The maximum number of LVs allowed to be used by the model, defaults to 20
@@ -593,7 +593,7 @@ class PLSDA_CV(PLSDA):
         if pp_pipe is None:
             pp_pipe = Pipeline([('mc', MeanCentering())])
 
-        self.y_pred_P = np.zeros_like(y, dtype=object)
+        self.y_pred_P = np.zeros_like(y, dtype=object) if isinstance(y[0], str) else np.zeros_like(y, dtype=int)
         self.y_pred_P_proba = np.zeros((len(y), len(self.classes_)), dtype=float)
 
         for train, test in CV_scheme.split(X, y, groups=groups):
