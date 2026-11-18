@@ -7,7 +7,7 @@ from sklearn.model_selection import KFold
 from sklearn.base import clone
 from sklearn.pipeline import Pipeline
 from itertools import product
-from RSSchemometrics.Plotting import rucolors
+from .Plotting import rucolors
 
 class MeanCentering(BaseEstimator,TransformerMixin):
     def __init__(self):
